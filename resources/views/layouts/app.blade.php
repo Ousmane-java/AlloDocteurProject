@@ -10,11 +10,24 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Fonts -->
+    <link rel="manifest" href="{{ asset('manifest.json')}}">
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+
+    <script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+            navigator.serviceWorker.register('/sw.js').then(function(registration) {
+                console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            }, function(err) {
+                console.error('ServiceWorker registration failed: ', err);
+            });
+        });
+    }
+</script>
 </head>
 <body>
     <div id="app">
@@ -77,4 +90,13 @@
         </main>
     </div>
 </body>
+<script>
+        if('serviceWorker' in navigator){
+            window.addEventListener('load', function(){
+                navigator.serviceWorker.register('/service-worker.js').then(function(){
+                    console.log('ServiceWorker is load');
+                })
+            })
+        }
+    </script>
 </html>

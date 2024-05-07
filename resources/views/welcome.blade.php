@@ -5,7 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>Laravel</title>
-
+        <!-- pwa -->
+        <link rel="manifest" href="{{ asset('manifest.json')}}">
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
@@ -130,4 +131,13 @@
             </div>
         </div>
     </body>
+    <script>
+        if('serviceWorker' in navigator){
+            window.addEventListener('load', function(){
+                navigator.serviceWorker.register('/service-worker.js').then(function(){
+                    console.log('ServiceWorker is load');
+                })
+            })
+        }
+    </script>
 </html>
