@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\RVController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,5 +28,8 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Auth::routes();
 
+Auth::routes();
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-// Route::get('/login', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+route::get('/reservationrv',[RVController::class,'index'])->name('rv');
+

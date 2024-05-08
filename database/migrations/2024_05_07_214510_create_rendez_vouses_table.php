@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('rendez_vous', function (Blueprint $table) {
+        Schema::create('rendez_vouses', function (Blueprint $table) {
             $table->id();
             $table->string('prestation');
             $table->unsignedBigInteger('idMedecin');
@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('telephonePatient');
             $table->timestamps();
 
-            $table->foreign('idMedecin')->references('id')->on('medecins')->onDelete('cascade');
+            $table->foreign('idMedecin')->references('id')->on('medecins')->onDelete('cascade');;
         });
     }
 
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('rendez_vous');
+        Schema::dropIfExists('rendez_vouses');
     }
 };
