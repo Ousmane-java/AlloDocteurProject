@@ -49,6 +49,16 @@
                             </select>
                         </div>
                         <div class="form-group">
+                            <label for="prestation">Localité</label>
+                            <select class="form-control" id="prestation" name="prestation">
+                                <option value="cardiologie">Cardiologie</option>
+                                <option value="cardiologie">Cardiologie</option>
+                                <option value="cardiologie">Cardiologie</option>
+                                <option value="cardiologie">Cardiologie</option>
+                                <option value="cardiologie">Cardiologie</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label for="date">Date</label>
                             <input type="date" class="form-control" id="date" name="date">
                         </div>
