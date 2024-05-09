@@ -18,11 +18,7 @@ class MedecinFactory extends Factory
     {
         $specialites = [
             'Cardiologue', 'Dermatologue', 'Chirurgien', 'Gynécologue', 'Neurologue', 'Ophtalmologue',
-            'Pédiatre', 'Radiologue', 'Oncologue', 'Psychiatre', 'Orthopédiste', 'Urologue',
-            'Endocrinologue', 'Hématologue', 'Allergologue', 'Anesthésiste', 'Gastro-entérologue', 'Rhumatologue',
-            'Pneumologue', 'Néphrologue', 'Oto-rhino-laryngologiste', 'Dentiste', 'Gériatre',
-            'Médecin généraliste', 'Médecin du sport', 'Médecin du travail', 'Médecin légiste',
-            'Médecin de famille', 'Médecin militaire', 'Médecin urgentiste'
+            'Pédiatre', 'Radiologue',
         ];
         $hopitale=[
             'Hôpital Aristide Le Dantec',
