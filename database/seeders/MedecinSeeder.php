@@ -12,6 +12,6 @@ class MedecinSeeder extends Seeder
      */
     public function run(): void
     {
-         \App\Models\Medecin::factory(15)->create();
+         \App\Models\Medecin::factory(100)->create();
     }
 }

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="manifest" href="{{ asset('manifest.json')}}">
+    {{--  <link rel="manifest" href="{{ asset('manifest.json')}}">  --}}
         <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
@@ -13,10 +13,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
 </head>
-<body>
 
-</body>
-</html>
 @extends('layouts.app')
 
 @section('content')
@@ -26,28 +23,35 @@
             <div class="card">
                 <div class="card-header">Prendre rendez-vous</div>
                 <div class="card-body">
-                    <form method="POST" action="">
-                        @csrf
+                    <!-- Modifier le formulaire pour utiliser les données des médecins -->
+                    <form method="POST" action="{{ route('home') }}">
+
                         <div class="form-group">
-                            <label for="prestation">Spécialitées</label>
-                            <select class="form-control" id="prestation" name="prestation">
-                                <option value="cardiologie" data-medecins="[1, 2, 3]">Cardiologie</option>
-                                <option value="cardiologie">Dermatologie</option>
-                                <option value="cardiologie">Neurologie</option>
-                                <option value="cardiologie">Physiatrie</option>
-                                <option value="cardiologie">Gynécologie</option>
+                            <label for="specialite">Spécialité</label>
+                            <select class="form-control" id="specialite" name="specialite">
+                                @foreach($specialites as $specialite)
+                                    <option value="{{ $specialite }}">{{ $specialite }}</option>
+                                @endforeach
                             </select>
                         </div>
+
                         <div class="form-group">
-                            <label for="prestation">Medecins</label>
-                            <select class="form-control" id="prestation" name="prestation">
-                                <option value="cardiologie">Cardiologie</option>
-                                <option value="cardiologie">Cardiologie</option>
-                                <option value="cardiologie">Cardiologie</option>
-                                <option value="cardiologie">Cardiologie</option>
-                                <option value="cardiologie">Cardiologie</option>
+                            <label for="localite">Hopitale</label>
+                            <select class="form-control" id="localite" name="localite">
+                                @foreach($medecins as $medecin)
+                                <option value="{{ $medecin->localite }}">{{ $medecin->localite}}</option>
+                                @endforeach
+                              </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="medecin">Médecins</label>
+                            <select class="form-control" id="medecin" name="medecin">
+                                @foreach($medecins as $medecin)
+                                <option value="{{ $medecin->id }}">{{ $medecin->nom }} {{ $medecin->prenom }}</option>
+                                @endforeach
                             </select>
                         </div>
+
                         <div class="form-group">
                             <label for="prestation">Localité</label>
                             <select class="form-control" id="prestation" name="prestation">
@@ -67,25 +71,15 @@
                             <input type="time" class="form-control" id="heure" name="heure">
                         </div>
                         <div class="form-group">
-                            <label for="nom">Nom</label>
-                            <input type="text" class="form-control" id="nom" name="nom">
+                            <label for="nom">Nom & Prenom</label>
+                            <input type="text" class="form-control" id="nom" name="nom" value="{{ $user->name }}" readonly>
                         </div>
-                        <div class="form-group">
-                            <label for="prenom">Prénom</label>
-                            <input type="text" class="form-control" id="prenom" name="prenom">
-                        </div>
+
                         <div class="form-group">
                             <label for="email">Email</label>
-                            <input type="email" class="form-control" id="email" name="email">
+                            <input type="email" class="form-control" id="email" name="email" value="{{ $user->email }}" readonly>
                         </div>
-                        <div class="form-group">
-                            <label for="adresse">Adresse</label>
-                            <input type="text" class="form-control" id="adresse" name="adresse">
-                        </div>
-                        <div class="form-group">
-                            <label for="telephone">Téléphone</label>
-                            <input type="text" class="form-control" id="telephone" name="telephone">
-                        </div>
+
                         <button type="submit" class="btn btn-primary mt-4">Confirmer</button>
                         <a href="{{ url('/') }}" class="btn btn-secondary mt-4">Annuler</a>
                     </form>
@@ -94,5 +88,45 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const specialiteSelect = document.getElementById('specialite');
+        const hopitaleSelect = document.getElementById('localite');
+        const medecinSelect = document.getElementById('medecin');
+
+        specialiteSelect.addEventListener('change', function() {
+            const selectedSpecialite = specialiteSelect.value;
+            fetch(`/localites/${selectedSpecialite}`)
+                .then(response => response.json())
+                .then(data => {
+                    hopitaleSelect.innerHTML = '';
+                    data.forEach(hopital => {
+                        const option = document.createElement('option');
+                        option.value = hopital;
+                        option.textContent = hopital;
+                        hopitaleSelect.appendChild(option);
+                    });
+                });
+        });
+
+        hopitaleSelect.addEventListener('change', function() {
+            const selectedLocalite = hopitaleSelect.value;
+            fetch(`/medecins/${selectedLocalite}`)
+                .then(response => response.json())
+                .then(data => {
+                    medecinSelect.innerHTML = '';
+                    data.forEach(medecin => {
+                        const option = document.createElement('option');
+                        option.value = medecin.id;
+                        option.textContent = `${medecin.nom} ${medecin.prenom}`;
+                        medecinSelect.appendChild(option);
+                    });
+                });
+        });
+    });
+
+</script>
+
 @endsection
 
