@@ -13,17 +13,17 @@ return new class extends Migration
     {
         Schema::create('rendez_vouses', function (Blueprint $table) {
             $table->id();
-            $table->string('prestation');
+            $table->string('nomprenomPatient');
+            $table->string('email');
             $table->unsignedBigInteger('idMedecin');
+            $table->string('prenomMedecin');
+            $table->string('nomMedecin');
+            $table->string('contactMedecin');
+            $table->string('specialite');
+            $table->string('localite');
             $table->date('date');
             $table->time('heure');
-            $table->string('nomPatient');
-            $table->string('prenomPatient');
-            $table->string('emailPatient');
-            $table->string('telephonePatient');
             $table->timestamps();
-
-            $table->foreign('idMedecin')->references('id')->on('medecins')->onDelete('cascade');;
         });
     }
 

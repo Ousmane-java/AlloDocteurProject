@@ -26,6 +26,17 @@
                     <!-- Modifier le formulaire pour utiliser les données des médecins -->
                     <form method="POST" action="{{ route('home') }}">
                          <!-- @csrf -->
+            <div class="card">
+                @if(session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+                 @endif
+                <div class="card-header">Prendre rendez-vous</div>
+                <div class="card-body">
+
+                    <form method="POST" action="{{ route('home') }}">
+                        @csrf
                         <div class="form-group">
                             <label for="specialite">Spécialité</label>
                             <select class="form-control" id="specialite" name="specialite">
@@ -52,6 +63,7 @@
                             </select>
                         </div>
                         <div class="form-group mt-3 mt-3">
+                        <div class="form-group">
                             <label for="date">Date</label>
                             <input type="date" class="form-control" id="date" name="date">
                         </div>
