@@ -20,12 +20,12 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
+            <div class="card shadow border-0">
                 <div class="card-header">Prendre rendez-vous</div>
                 <div class="card-body">
                     <!-- Modifier le formulaire pour utiliser les données des médecins -->
                     <form method="POST" action="{{ route('home') }}">
-
+                         <!-- @csrf -->
                         <div class="form-group">
                             <label for="specialite">Spécialité</label>
                             <select class="form-control" id="specialite" name="specialite">
@@ -35,7 +35,7 @@
                             </select>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group mt-3">
                             <label for="localite">Hopitale</label>
                             <select class="form-control" id="localite" name="localite">
                                 @foreach($medecins as $medecin)
@@ -43,7 +43,7 @@
                                 @endforeach
                               </select>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group mt-3">
                             <label for="medecin">Médecins</label>
                             <select class="form-control" id="medecin" name="medecin">
                                 @foreach($medecins as $medecin)
@@ -51,33 +51,22 @@
                                 @endforeach
                             </select>
                         </div>
-
-                        <div class="form-group">
-                            <label for="prestation">Localité</label>
-                            <select class="form-control" id="prestation" name="prestation">
-                                <option value="cardiologie">Cardiologie</option>
-                                <option value="cardiologie">Cardiologie</option>
-                                <option value="cardiologie">Cardiologie</option>
-                                <option value="cardiologie">Cardiologie</option>
-                                <option value="cardiologie">Cardiologie</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
+                        <div class="form-group mt-3 mt-3">
                             <label for="date">Date</label>
                             <input type="date" class="form-control" id="date" name="date">
                         </div>
-                        <div class="form-group">
+                        <div class="form-group mt-3">
                             <label for="heure">Heure</label>
                             <input type="time" class="form-control" id="heure" name="heure">
                         </div>
-                        <div class="form-group">
+                        <div class="form-group mt-3">
                             <label for="nom">Nom & Prenom</label>
-                            <input type="text" class="form-control" id="nom" name="nom" value="{{ $user->name }}" readonly>
+                            <input type="text" class="form-control" id="nom" name="nom" value="{{ $user ? $user->name: '' }}" readonly>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group mt-3">
                             <label for="email">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" value="{{ $user->email }}" readonly>
+                            <input type="email" class="form-control" id="email" name="email" value="{{$user ?$user->email:'' }}" readonly>
                         </div>
 
                         <button type="submit" class="btn btn-primary mt-4">Confirmer</button>

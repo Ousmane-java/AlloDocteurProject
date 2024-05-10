@@ -25,11 +25,12 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-route::get('/reservationrv',[RVController::class,'index'])->name('rv');
+// route::get('/reservationrv',[RVController::class,'index'])->name('rv');
 use App\Http\Controllers\HomeController;
 
 Route::get('/localites/{specialite}', [HomeController::class, 'getLocalitesBySpecialite']);
 Route::get('/medecins/{localite}', [HomeController::class, 'getMedecinsByLocalite']);
+
 
 
 

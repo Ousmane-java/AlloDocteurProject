@@ -45,9 +45,9 @@
             </div>
         </div>
         <!-- Bouton prendre rendez-vous -->
-        <div class="row mb-4">
+        <div class="row mb-5 py-0">
             <div class="col text-center">
-                <a href="{{route('login')}}" class="btn  btn-outline-secondary ">Prendre rendez-vous</a>
+                <a href="{{route('login')}}" class="btn  btn-outline-primary ">Prendre rendez-vous</a>
             </div>
         </div>
     </div>
