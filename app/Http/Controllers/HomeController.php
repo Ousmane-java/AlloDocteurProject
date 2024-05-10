@@ -2,15 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\medecin;
+use App\Models\Medecin;
 use App\Models\rendez_vous;
+use App\Models\RendezVous;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Dompdf\Options;
+use Dompdf\Dompdf;
+use PDF;
 
 class HomeController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         if (Auth::check()) {
             $user = Auth::user();
             $medecins = Medecin::all();
@@ -26,13 +31,14 @@ class HomeController extends Controller
             return redirect()->route('login');
         }
     }
+
     public function getLocalitesBySpecialite($specialite)
     {
         $localites = Medecin::where('specialite', $specialite)->distinct('localite')->pluck('localite');
         return new JsonResponse($localites);
     }
 
-        public function getMedecinsByLocalite($localite)
+    public function getMedecinsByLocalite($localite)
     {
         $medecins = Medecin::where('localite', $localite)->get();
         return response()->json($medecins);
@@ -46,11 +52,10 @@ class HomeController extends Controller
             'medecin' => 'required',
             'email' => 'required|email',
             'date' => 'required|date',
-            'heure' => 'required|',
+            'heure' => 'required',
             'nom' => 'required',
-
         ]);
-// dd($request->all());
+    
         $rv = new \App\Models\rendez_vous();
         $rv->nomprenomPatient = $request->input('nom');
         $rv->email = $request->input('email');
@@ -62,17 +67,48 @@ class HomeController extends Controller
             $rv->contactMedecin = $medecin->telephone;
         } else {
             $rv->contactMedecin = '';
-            $rv->prenomMedecin ='';
-            $rv->nomMedecin ='';
-
+            $rv->prenomMedecin = '';
+            $rv->nomMedecin = '';
         }
         $rv->specialite = $request->input('specialite');
         $rv->localite = $request->input('localite');
         $rv->date = $request->input('date');
         $rv->heure = $request->input('heure');
-        // dd($rv);
         $rv->save();
-
-        return redirect()->route('home')->with('success', 'Rendez-vous enregistré avec succès!');
+    
+        return redirect()->route('recap', ['id' => $rv->id])->with('success', 'Rendez-vous enregistré avec succès!');
     }
+
+    public function showRecap($id)
+    {
+        $rendezVous = rendez_vous::findOrFail($id);
+        return view('recap', compact('rendezVous'));
+    }
+
+
+    public function download($id)
+    {
+        $rendezVous = rendez_vous::findOrFail($id);
+    
+        // Configuration de Dompdf
+        $options = new Options();
+        $options->set('isHtml5ParserEnabled', true);
+    
+        // Création de l'instance Dompdf
+        $dompdf = new Dompdf($options);
+    
+        // Charge la vue PDF avec les données du rendez-vous
+        $html = view('ticketRV', compact('rendezVous'))->render();
+    
+        // Génère le PDF
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+    
+        // Télécharge le PDF
+        return $dompdf->stream('rendezvous_' . $id . '.pdf');
+    }
+    
+    
+    
 }
