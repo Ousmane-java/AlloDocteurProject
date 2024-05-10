@@ -16,21 +16,37 @@ use App\Http\Controllers\HomeController;
 |
 */
 
+
+
 Route::get('/', function () {
     return view('accueil');
-});
+})->name('accueil');
 
-
+route::get('login', [HomeController::class, 'login'])->name('login');
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-route::get('/rv',[HomeController::class,'index'])->name('rv');
 
 Route::get('/localites/{specialite}', [HomeController::class, 'getLocalitesBySpecialite']);
 Route::get('/medecins/{localite}', [HomeController::class, 'getMedecinsByLocalite']);
 
 Route::post('/home', [App\Http\Controllers\HomeController::class, 'store'])->name('home.store');
+
+Route::get('/liste_rendez_vous', [HomeController::class, 'listeRendezVous'])->name('liste_rv');
+
+Route::post('/update_rendez_vous/{id}', [HomeController::class, 'updateRendezVous'])->name('update_rv');
+
+Route::get('/rendezvous/{id}/edit', [HomeController::class, 'editRendezVous'])->name('rendezvous.edit');
+Route::put('/rendezvous/{id}', [HomeController::class, 'updateRendezVous'])->name('rendezvous.update');
+
+Route::match(['get', 'post'], '/liste_rendez_vous', [HomeController::class, 'listeRendezVous'])->name('liste_rv');
+Route::delete('/delete_rendez_vous/{id}', [HomeController::class, 'deleteRendezVous'])->name('delete_rv');
+
+
+
+
+
 
 
 
