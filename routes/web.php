@@ -51,6 +51,7 @@ Route::delete('/delete_rendez_vous/{id}', [HomeController::class, 'deleteRendezV
 
 
 
+
 // Route::get('/appointment/form', [App\Http\Controllers\HomeController::class, 'showAppointmentForm'])->name('showAppointmentForm');
 
 
