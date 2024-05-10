@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nom');
             $table->string('prenom');
+            $table->string('telephone');
             $table->string('specialite');
             $table->string('localite');
             $table->timestamps();

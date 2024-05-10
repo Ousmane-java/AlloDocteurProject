@@ -61,6 +61,7 @@ class MedecinFactory extends Factory
             'prenom' => $this->faker->randomElement($firstName),
             'specialite' => $this->faker->randomElement($specialites),
             'localite' => $this->faker->randomElement($hopitale),
+            'telephone'=>$this->faker->phoneNumber,
             'created_at' => $this->faker->dateTimeThisMonth,
             'updated_at' => $this->faker->dateTimeThisMonth,
         ];

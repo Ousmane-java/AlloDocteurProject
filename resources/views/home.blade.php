@@ -21,11 +21,16 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
+                @if(session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+                 @endif
                 <div class="card-header">Prendre rendez-vous</div>
                 <div class="card-body">
-                    <!-- Modifier le formulaire pour utiliser les données des médecins -->
-                    <form method="POST" action="{{ route('home') }}">
 
+                    <form method="POST" action="{{ route('home') }}">
+                        @csrf
                         <div class="form-group">
                             <label for="specialite">Spécialité</label>
                             <select class="form-control" id="specialite" name="specialite">
@@ -51,6 +56,8 @@
                                 @endforeach
                             </select>
                         </div>
+
+
 
                         <div class="form-group">
                             <label for="date">Date</label>
