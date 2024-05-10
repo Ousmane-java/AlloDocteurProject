@@ -21,7 +21,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card shadow border-0">
-                <div class="card-header">Prendre rendez-vous</div>
+                <!-- <div class="card-header">Prendre rendez-vous</div> -->
                 <div class="card-body">
                     <!-- Modifier le formulaire pour utiliser les données des médecins -->
                     <form method="POST" action="{{ route('home') }}">
@@ -89,9 +89,6 @@
                         <a href="{{ url('/') }}" class="btn btn-secondary mt-4">Retour</a>
                     </form>
 
-                                        <button type="submit" class="btn btn-primary mt-4">Confirmer</button>
-                                        <a href="{{ url('/') }}" class="btn btn-secondary mt-4">Annuler</a>
-                                </form>
                             </div>
                         </div>
                 </div>

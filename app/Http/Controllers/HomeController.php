@@ -56,9 +56,7 @@ class HomeController extends Controller
             'heure' => 'required',
             'nom' => 'required',
         ]);
-<<<<<<< HEAD
-    
-=======
+
 
         // Vérification de la disponibilité du rendez-vous
         $existingAppointment = rendez_vous::where('idMedecin', $request->input('medecin'))
@@ -70,7 +68,7 @@ class HomeController extends Controller
             return redirect()->back()->with('error', 'La date et l\'heure sélectionnées sont déjà prises. Veuillez choisir une autre date ou heure.');
         }
 
->>>>>>> 2217f14c888ccb14fc0ad161a1ba87fe0c5929b2
+
         $rv = new \App\Models\rendez_vous();
         $rv->nomprenomPatient = $request->input('nom');
         $rv->email = $request->input('email');
@@ -90,11 +88,10 @@ class HomeController extends Controller
         $rv->date = $request->input('date');
         $rv->heure = $request->input('heure');
         $rv->save();
-    
+
         return redirect()->route('recap', ['id' => $rv->id])->with('success', 'Rendez-vous enregistré avec succès!');
     }
 
-<<<<<<< HEAD
     public function showRecap($id)
     {
         $rendezVous = rendez_vous::findOrFail($id);
@@ -105,29 +102,27 @@ class HomeController extends Controller
     public function download($id)
     {
         $rendezVous = rendez_vous::findOrFail($id);
-    
+
         // Configuration de Dompdf
         $options = new Options();
         $options->set('isHtml5ParserEnabled', true);
-    
+
         // Création de l'instance Dompdf
         $dompdf = new Dompdf($options);
-    
+
         // Charge la vue PDF avec les données du rendez-vous
         $html = view('ticketRV', compact('rendezVous'))->render();
-    
+
         // Génère le PDF
         $dompdf->loadHtml($html);
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
-    
+
         // Télécharge le PDF
         return $dompdf->stream('rendezvous_' . $id . '.pdf');
     }
-    
-    
-    
-=======
+
+
     public function listeRendezVous(){
         $rendez_vous = Rendez_vous::orderBy('id', 'desc')->get();
         $rendez_vous = rendez_vous::all();
@@ -215,8 +210,4 @@ private function reindexRendezVousIds()
         $rv->save();
     }
 }
-
-
-
->>>>>>> 2217f14c888ccb14fc0ad161a1ba87fe0c5929b2
 }
