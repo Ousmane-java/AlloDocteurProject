@@ -82,7 +82,7 @@
                         </div>
 
                         <button type="submit" class="btn btn-primary mt-4">Confirmer</button>
-                        <a href="{{ url('/') }}" class="btn btn-secondary mt-4">Annuler</a>
+                        <a href="{{ url('/') }}" class="btn btn-secondary mt-4">Retour</a>
                     </form>
                 </div>
             </div>
