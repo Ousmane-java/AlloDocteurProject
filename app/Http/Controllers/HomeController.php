@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         if (Auth::check()) {
             $user = Auth::user();
             $medecins = Medecin::all();
@@ -26,13 +27,14 @@ class HomeController extends Controller
             return redirect()->route('login');
         }
     }
+
     public function getLocalitesBySpecialite($specialite)
     {
         $localites = Medecin::where('specialite', $specialite)->distinct('localite')->pluck('localite');
         return new JsonResponse($localites);
     }
 
-        public function getMedecinsByLocalite($localite)
+    public function getMedecinsByLocalite($localite)
     {
         $medecins = Medecin::where('localite', $localite)->get();
         return response()->json($medecins);
@@ -50,7 +52,17 @@ class HomeController extends Controller
             'nom' => 'required',
 
         ]);
-// dd($request->all());
+
+        // Vérification de la disponibilité du rendez-vous
+        $existingAppointment = rendez_vous::where('idMedecin', $request->input('medecin'))
+            ->where('date', $request->input('date'))
+            ->where('heure', $request->input('heure'))
+            ->first();
+
+        if ($existingAppointment) {
+            return redirect()->back()->with('error', 'La date et l\'heure sélectionnées sont déjà prises. Veuillez choisir une autre date ou heure.');
+        }
+
         $rv = new \App\Models\rendez_vous();
         $rv->nomprenomPatient = $request->input('nom');
         $rv->email = $request->input('email');
@@ -62,15 +74,13 @@ class HomeController extends Controller
             $rv->contactMedecin = $medecin->telephone;
         } else {
             $rv->contactMedecin = '';
-            $rv->prenomMedecin ='';
-            $rv->nomMedecin ='';
-
+            $rv->prenomMedecin = '';
+            $rv->nomMedecin = '';
         }
         $rv->specialite = $request->input('specialite');
         $rv->localite = $request->input('localite');
         $rv->date = $request->input('date');
         $rv->heure = $request->input('heure');
-        // dd($rv);
         $rv->save();
 
         return redirect()->route('home')->with('success', 'Rendez-vous enregistré avec succès!');
