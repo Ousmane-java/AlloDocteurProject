@@ -53,8 +53,9 @@ Route::delete('/delete_rendez_vous/{id}', [HomeController::class, 'deleteRendezV
 
 
 
-
-
+//fichier pdf a telecharger
+Route::get('/recap/{id}', [HomeController::class, 'showRecap'])->name('recap');
+Route::get('/download/{id}', [HomeController::class, 'download'])->name('download');
 
 // Route::get('/appointment/form', [App\Http\Controllers\HomeController::class, 'showAppointmentForm'])->name('showAppointmentForm');
 

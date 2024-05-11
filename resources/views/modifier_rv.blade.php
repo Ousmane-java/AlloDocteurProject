@@ -1,17 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>Modifier le rendez-vous</h1>
+
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <div class="card">
+                <div class="card shadow border-0">
                     @if(session('success'))
                     <div class="alert alert-success">
                         {{ session('success') }}
                     </div>
                      @endif
-                    <div class="card-header">Prendre rendez-vous</div>
+                    <div class="card-header">Modifier le rendez-vous</div>
                     <div class="card-body">
 
                         <form method="POST" action="{{ route('update_rv', ['id' => $rendezVous->id]) }}">
@@ -26,7 +26,7 @@
                                 </select>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group mt-3">
                                 <label for="localite">Hopitale</label>
                                 <select class="form-control" id="localite" name="localite">
                                     @foreach($medecins as $medecin)
@@ -35,7 +35,7 @@
                                 </select>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group mt-3">
                                 <label for="medecin">Médecins</label>
                                 <select class="form-control" id="medecin" name="medecin">
                                     @foreach($medecins as $medecin)
@@ -44,22 +44,22 @@
                                 </select>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group mt-3">
                                 <label for="date">Date</label>
                                 <input type="date" class="form-control" id="date" name="date" value="{{ $rendezVous->date }}">
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group mt-3">
                                 <label for="heure">Heure</label>
                                 <input type="time" class="form-control" id="heure" name="heure" value="{{ $rendezVous->heure }}">
                             </div>
 
                             @if(isset($user))
-                            <div class="form-group">
+                            <div class="form-group mt-3">
                                 <label for="nom">Nom & Prenom</label>
                                 <input type="text" class="form-control" id="nom" name="nom" value="{{ $user->name }}" readonly>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group mt-3">
                                 <label for="email">Email</label>
                                 <input type="email" class="form-control" id="email" name="email" value="{{ $user->email }}" readonly>
                             </div>
