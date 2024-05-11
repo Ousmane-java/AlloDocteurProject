@@ -7,6 +7,8 @@ use App\Models\rendez_vous;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use PDF;
+use Dompdf\Dompdf;
 
 class HomeController extends Controller
 {
@@ -164,6 +166,19 @@ private function reindexRendezVousIds()
         $rv->save();
     }
 }
+
+ // Importez la classe PDF de dompdf
+
+//  public function downloadPDF($id)
+//  {
+//      $rendez_vous = Rendez_vous::findOrFail($id);
+//      $dompdf = new Dompdf();
+//      $dompdf->loadHtml(view('rv_pdf', ['rendez_vous' => $rendez_vous])->render());
+//      $dompdf->setPaper('A4', 'portrait');
+//      $dompdf->render();
+//      return $dompdf->stream('rv_pdf.pdf');
+//  }
+
 
 
 
