@@ -8,14 +8,9 @@ use App\Models\RendezVous;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-<<<<<<< HEAD
-use PDF;
-use Dompdf\Dompdf;
-=======
 use Dompdf\Options;
 use Dompdf\Dompdf;
 use PDF;
->>>>>>> 164115c35d464b9fa15cfa9c8e0e86da8e463a96
 
 class HomeController extends Controller
 {
@@ -104,28 +99,51 @@ class HomeController extends Controller
     }
 
 
+    // public function download($id)
+    // {
+    //     $rendezVous = rendez_vous::findOrFail($id);
+
+    //     // Configuration de Dompdf
+    //     $options = new Options();
+    //     $options->set('isHtml5ParserEnabled', true);
+
+    //     // Création de l'instance Dompdf
+    //     $dompdf = new Dompdf($options);
+
+    //     // Charge la vue PDF avec les données du rendez-vous
+    //     $html = view('ticketRV', compact('rendezVous'))->render();
+
+    //     // Génère le PDF
+    //     $dompdf->loadHtml($html);
+    //     $dompdf->setPaper('A4', 'portrait');
+    //     $dompdf->render();
+
+    //     // Télécharge le PDF
+    //     return $dompdf->stream('rendezvous_' . $id . '.pdf');
+    // }
+
     public function download($id)
-    {
-        $rendezVous = rendez_vous::findOrFail($id);
+{
+    $rendezVous = rendez_vous::findOrFail($id);
 
-        // Configuration de Dompdf
-        $options = new Options();
-        $options->set('isHtml5ParserEnabled', true);
+    // Configuration de Dompdf
+    $options = new Options();
+    $options->set('isHtml5ParserEnabled', true);
 
-        // Création de l'instance Dompdf
-        $dompdf = new Dompdf($options);
+    // Création de l'instance Dompdf
+    $dompdf = new Dompdf($options);
 
-        // Charge la vue PDF avec les données du rendez-vous
-        $html = view('ticketRV', compact('rendezVous'))->render();
+    // Charge la vue PDF avec les données du rendez-vous
+    $html = view('ticketRV', compact('rendezVous'))->render();
 
-        // Génère le PDF
-        $dompdf->loadHtml($html);
-        $dompdf->setPaper('A4', 'portrait');
-        $dompdf->render();
+    // Génère le PDF
+    $dompdf->loadHtml($html);
+    $dompdf->setPaper('A4', 'portrait');
+    $dompdf->render();
 
-        // Télécharge le PDF
-        return $dompdf->stream('rendezvous_' . $id . '.pdf');
-    }
+    // Télécharge le PDF
+    return $dompdf->stream('rendezvous_' . $id . '.pdf');
+}
 
 
     public function listeRendezVous(){
@@ -214,24 +232,6 @@ private function reindexRendezVousIds()
         $rv->id = $key + 1;
         $rv->save();
     }
+
 }
-<<<<<<< HEAD
-
- // Importez la classe PDF de dompdf
-
-//  public function downloadPDF($id)
-//  {
-//      $rendez_vous = Rendez_vous::findOrFail($id);
-//      $dompdf = new Dompdf();
-//      $dompdf->loadHtml(view('rv_pdf', ['rendez_vous' => $rendez_vous])->render());
-//      $dompdf->setPaper('A4', 'portrait');
-//      $dompdf->render();
-//      return $dompdf->stream('rv_pdf.pdf');
-//  }
-
-
-
-
-=======
->>>>>>> 164115c35d464b9fa15cfa9c8e0e86da8e463a96
 }

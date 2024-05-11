@@ -69,12 +69,14 @@
                                     </div>
                                     <div class="form-group mt-3 mt-3">
                                         <div class="form-group">
-                                            <label for="date">Date</label>
-                                            <input type="date" class="form-control" id="date" name="date">
+                                            <label for="date">Date *</label>
+                                            <input type="date" class="form-control" id="date" name="date" required>
+                                            <span id="date-error" class="text-danger"></span>
                                         </div>
                                         <div class="form-group mt-3">
-                                            <label for="heure">Heure</label>
-                                            <input type="time" class="form-control" id="heure" name="heure">
+                                            <label for="heure">Heure *</label>
+                                            <input type="time" class="form-control" id="heure" name="heure" required>
+                                            <span id="heure-error" class="text-danger"></span>
                                         </div>
                                         <div class="form-group mt-3">
                                             <label for="nom">Nom & Prenom</label>

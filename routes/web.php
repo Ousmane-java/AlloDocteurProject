@@ -43,16 +43,6 @@ Route::put('/rendezvous/{id}', [HomeController::class, 'updateRendezVous'])->nam
 Route::match(['get', 'post'], '/liste_rendez_vous', [HomeController::class, 'listeRendezVous'])->name('liste_rv');
 Route::delete('/delete_rendez_vous/{id}', [HomeController::class, 'deleteRendezVous'])->name('delete_rv');
 
-// Route::get('/download-pdf/{id}', [HomeController::class, 'downloadPDF'])->name('download-pdf');
-
-
-
-
-
-
-
-
-
 //fichier pdf a telecharger
 Route::get('/recap/{id}', [HomeController::class, 'showRecap'])->name('recap');
 Route::get('/download/{id}', [HomeController::class, 'download'])->name('download');

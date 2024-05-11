@@ -64,7 +64,7 @@
                             <td>{{ $rdv->heure }}</td>
                             <td class="text-center">
 
-                                <a href="" class="text-success"><i class="fas fa-download text-success"></i></a>
+                                <a href="{{ route('download', ['id' => $rdv->id]) }}" class="text-success"><i class="fas fa-download text-success"></i></a>
 
                                 <a href="{{ route('rendezvous.edit', ['id' => $rdv->id]) }}" class="text-primary"><i class="fas fa-pencil-alt text-primary"></i></a>
                                 <form id="form-{{ $rdv->id }}" action="{{ route('delete_rv', ['id' => $rdv->id]) }}" method="POST" style="display: inline-block;">

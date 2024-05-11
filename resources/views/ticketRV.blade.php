@@ -19,7 +19,7 @@
                     <p>Veuillez arriver 15 minutes avant l'heure prévue et veillez à conserver votre ticket.</p> <br>
                     <center><h6>Document légal générer par Allo Docteur !</h6></center>
 
-                  
+
                 </div>
             </div>
         </div>
