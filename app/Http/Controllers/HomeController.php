@@ -57,15 +57,19 @@ class HomeController extends Controller
             'nom' => 'required',
         ]);
 
-
         // Vérification de la disponibilité du rendez-vous
-        $existingAppointment = rendez_vous::where('idMedecin', $request->input('medecin'))
-            ->where('date', $request->input('date'))
-            ->where('heure', $request->input('heure'))
-            ->first();
+        $medecin = Medecin::find($request->input('medecin'));
+        if (!$medecin) {
+        return redirect()->back()->with('error', 'Le médecin sélectionné n\'existe pas. Veuillez choisir un médecin valide.');
+        }
+
+        $existingAppointment = Rendez_vous::where('idMedecin', $medecin->id)
+        ->where('date', $request->input('date'))
+        ->where('heure', $request->input('heure'))
+        ->first();
 
         if ($existingAppointment) {
-            return redirect()->back()->with('error', 'La date et l\'heure sélectionnées sont déjà prises. Veuillez choisir une autre date ou heure.');
+        return redirect()->back()->with('error', 'Le médecin ' . $medecin->prenom . ' ' . $medecin->nom . ' n\'est pas disponible à cette date. Veuillez choisir une autre date ou heure.');
         }
 
 
@@ -98,7 +102,6 @@ class HomeController extends Controller
         return view('recap', compact('rendezVous'));
     }
 
-
     public function download($id)
     {
         $rendezVous = rendez_vous::findOrFail($id);
@@ -111,7 +114,7 @@ class HomeController extends Controller
         $dompdf = new Dompdf($options);
 
         // Charge la vue PDF avec les données du rendez-vous
-        $html = view('ticketRV', compact('rendezVous'))->render();
+        $html = view('ticket', compact('rendezVous'))->render();
 
         // Génère le PDF
         $dompdf->loadHtml($html);
@@ -122,92 +125,89 @@ class HomeController extends Controller
         return $dompdf->stream('rendezvous_' . $id . '.pdf');
     }
 
-
-    public function listeRendezVous(){
-        $rendez_vous = Rendez_vous::orderBy('id', 'desc')->get();
-        $rendez_vous = rendez_vous::all();
-        return view('liste_rv', ['rendez_vous' => $rendez_vous]);
-
-}
-
-
-public function editRendezVous($id)
-{
-    $rendezVous = Rendez_vous::findOrFail($id);
-    $medecins = Medecin::all();
-    $specialites = Medecin::distinct('specialite')->pluck('specialite');
-    $user = Auth::user();
-
-    return view('modifier_rv', [
-        'rendezVous' => $rendezVous,
-        'medecins' => $medecins,
-        'specialites' => $specialites,
-        'user' => $user,
-        'selectedSpecialite' => $rendezVous->specialite,
-        'selectedLocalite' => $rendezVous->localite,
-        'selectedMedecin' => $rendezVous->idMedecin,
-    ]);
-}
-
-
-
-
-public function updateRendezVous(Request $request, $id)
-{
-    $request->validate([
-        'specialite' => 'required',
-        'localite' => 'required',
-        'medecin' => 'required',
-        'email' => 'required|email',
-        'date' => 'required|date',
-        'heure' => 'required|',
-        'nom' => 'required',
-    ]);
-
-            $rendezVous = Rendez_vous::findOrFail($id);
-
-            $rendezVous->nomprenomPatient = $request->input('nom');
-            $rendezVous->email = $request->input('email');
-            $rendezVous->idMedecin = $request->input('medecin');
-            $medecin = Medecin::find($request->input('medecin'));
-            if ($medecin) {
-                $rendezVous->prenomMedecin = $medecin->prenom;
-                $rendezVous->nomMedecin = $medecin->nom;
-                $rendezVous->contactMedecin = $medecin->telephone;
-            } else {
-                $rendezVous->contactMedecin = '';
-                $rendezVous->prenomMedecin ='';
-                $rendezVous->nomMedecin ='';
-            }
-            $rendezVous->specialite = $request->input('specialite');
-            $rendezVous->localite = $request->input('localite');
-            $rendezVous->date = $request->input('date');
-            $rendezVous->heure = $request->input('heure');
-            // dd($rendezVous);
-            $rendezVous->save(); // Sauvegarde les modifications
-
-
-            return redirect()->route('liste_rv')->with('success', 'Rendez-vous modifié avec succès!');
-}
-
-public function deleteRendezVous($id)
-{
-
-    $rendezVous = Rendez_vous::find($id);
-
-    if (!$rendezVous) {
-        return redirect()->route('liste_rv')->with('error', 'Le rendez-vous que vous essayez de supprimer n\'existe pas.');
+    public function listeRendezVous()
+    {
+        if (Auth::check()) {
+            $user = Auth::user();
+            $rendez_vous = Rendez_vous::where('email', $user->email)->orderBy('id', 'desc')->get();
+            return view('liste_rv', ['rendez_vous' => $rendez_vous]);
+        } else {
+            return redirect()->route('login')->with('error', 'Vous devez être connecté pour voir vos réservations.');
+        }
     }
-    $rendezVous->delete();
-    $this->reindexRendezVousIds();
-    return redirect()->route('liste_rv')->with('success', 'Le rendez-vous a été supprimé avec succès.');
-}
-private function reindexRendezVousIds()
-{
-    $rendezVous = Rendez_vous::all();
-    foreach ($rendezVous as $key => $rv) {
-        $rv->id = $key + 1;
-        $rv->save();
+
+    public function editRendezVous($id)
+    {
+        $rendezVous = Rendez_vous::findOrFail($id);
+        $medecins = Medecin::all();
+        $specialites = Medecin::distinct('specialite')->pluck('specialite');
+        $user = Auth::user();
+
+        return view('modifier_rv', [
+            'rendezVous' => $rendezVous,
+            'medecins' => $medecins,
+            'specialites' => $specialites,
+            'user' => $user,
+            'selectedSpecialite' => $rendezVous->specialite,
+            'selectedLocalite' => $rendezVous->localite,
+            'selectedMedecin' => $rendezVous->idMedecin,
+        ]);
     }
-}
+
+    public function updateRendezVous(Request $request, $id)
+    {
+        $request->validate([
+            'specialite' => 'required',
+            'localite' => 'required',
+            'medecin' => 'required',
+            'email' => 'required|email',
+            'date' => 'required|date',
+            'heure' => 'required|',
+            'nom' => 'required',
+        ]);
+
+        $rendezVous = Rendez_vous::findOrFail($id);
+
+        $rendezVous->nomprenomPatient = $request->input('nom');
+        $rendezVous->email = $request->input('email');
+        $rendezVous->idMedecin = $request->input('medecin');
+        $medecin = Medecin::find($request->input('medecin'));
+        if ($medecin) {
+            $rendezVous->prenomMedecin = $medecin->prenom;
+            $rendezVous->nomMedecin = $medecin->nom;
+            $rendezVous->contactMedecin = $medecin->telephone;
+        } else {
+            $rendezVous->contactMedecin = '';
+            $rendezVous->prenomMedecin = '';
+            $rendezVous->nomMedecin = '';
+        }
+        $rendezVous->specialite = $request->input('specialite');
+        $rendezVous->localite = $request->input('localite');
+        $rendezVous->date = $request->input('date');
+        $rendezVous->heure = $request->input('heure');
+        $rendezVous->save();
+
+        return redirect()->route('liste_rv')->with('success', 'Rendez-vous modifié avec succès!');
+    }
+
+    public function deleteRendezVous($id)
+    {
+        $rendezVous = Rendez_vous::find($id);
+
+        if (!$rendezVous) {
+            return redirect()->route('liste_rv')->with('error', 'Le rendez-vous que vous essayez de supprimer n\'existe pas.');
+        }
+        $rendezVous->delete();
+        $this->reindexRendezVousIds();
+        return redirect()->route('liste_rv')->with('success', 'Le rendez-vous a été supprimé avec succès.');
+    }
+
+    private function reindexRendezVousIds()
+    {
+        $rendezVous = Rendez_vous::all();
+        foreach ($rendezVous as $key => $rv) {
+            $rv->id = $key + 1;
+            $rv->save();
+        }
+    }
 }
