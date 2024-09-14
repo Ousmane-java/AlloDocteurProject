@@ -28,7 +28,7 @@
 
                     <div class="mt-4">
                         <a href="{{ route('download', $rendezVous->id) }}" class="btn btn-primary">Télécharger PDF</a>
-                        <a href="{{ route('home') }}" class="btn btn-secondary">Accueil</a>
+                        <a href="{{ route('liste_rv') }}" class="btn btn-secondary">Accueil</a>
                     </div>
                 </div>
             </div>

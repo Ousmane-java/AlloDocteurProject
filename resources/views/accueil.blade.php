@@ -45,7 +45,7 @@
                 <a href="{{route('login')}}" class="btn  btn-outline-primary ">Prendre rendez-vous</a>
             </div>
         </div>
-        <div class="row mb-4">
+        <div class="row mb-4 "  >
             <div class="col text-center">
                 <a href="{{route('liste_rv')}}" class="btn  btn-outline-primary "> Mes rendez-vous</a>
             </div>

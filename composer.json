@@ -6,10 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
-<<<<<<< HEAD
-=======
         "bacon/bacon-qr-code": "^3.0",
->>>>>>> 164115c35d464b9fa15cfa9c8e0e86da8e463a96
         "dompdf/dompdf": "^2.0",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^10.10",
